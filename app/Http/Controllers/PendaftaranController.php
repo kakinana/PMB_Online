@@ -7,6 +7,7 @@ use App\Models\Kecamatan;
 use App\Models\Pendaftaran;
 use App\Models\Province;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class PendaftaranController extends Controller
@@ -50,9 +51,45 @@ class PendaftaranController extends Controller
         $cities = Kabupaten::where('prov_id', $daftar->prov_id)->get(['city_id', 'city_name']);
         $districts = Kecamatan::where('city_id', $daftar->city_id)->get(['dis_id', 'dis_name']);
 
-        //dd($exProvinces);
+        $enumKewarganegaraan = DB::select("SHOW COLUMNS FROM pendaftaran WHERE Field = 'kewarganegaraan'")[0]->Type;
+        preg_match('/enum\((.*)\)/', $enumKewarganegaraan, $matches);
+        $kewarganegaraan = array_map(function($value) {
+            return trim($value, "'");
+        }, explode(',', $matches[1]));
+
+        $enumKelamin = DB::select("SHOW COLUMNS FROM pendaftaran WHERE Field = 'jenis_kelamin'")[0]->Type;
+        preg_match('/enum\((.*)\)/', $enumKelamin, $matches);
+        $jenisKelamin = array_map(function($value) {
+            return trim($value, "'");
+        }, explode(',', $matches[1]));
+
+        $enumStatNikah = DB::select("SHOW COLUMNS FROM pendaftaran WHERE Field = 'status_nikah'")[0]->Type;
+        preg_match('/enum\((.*)\)/', $enumStatNikah, $matches);
+        $statusNikah = array_map(function($value) {
+            return trim($value, "'");
+        }, explode(',', $matches[1]));
         
-        return view('editDaftar', compact('daftar', 'exProvinces', 'cities', 'districts'));
+        $enumAgama = DB::select("SHOW COLUMNS FROM pendaftaran WHERE Field = 'agama'")[0]->Type;
+        preg_match('/enum\((.*)\)/', $enumAgama, $matches);
+        $agama = array_map(function($value) {
+            return trim($value, "'");
+        }, explode(',', $matches[1]));
+        
+        return view('editDaftar', compact('daftar', 'exProvinces', 'cities', 'districts', 'kewarganegaraan', 'statusNikah', 'jenisKelamin', 'agama'));
+    }
+
+    public function newKabupatens(Request $request)
+    {
+        $provinceId = $request->input('prov_id');
+        $kabupatens = Kabupaten::where('prov_id', $request->province_id)->get(['city_id', 'city_name']);
+        return response()->json($kabupatens);
+    }
+
+    public function newKecamatans(Request $request)
+    {
+        $cityId = $request->input('city_id');
+        $kecamatans = Kecamatan::where('city_id', $request->city_id)->get(['dis_id', 'dis_name']);
+        return response()->json($kecamatans);
     }
     public function store(Request $request)
     {
@@ -98,8 +135,8 @@ class PendaftaranController extends Controller
             'prov_id' => 'required|exists:provinces,prov_id',
             'city_id' => 'required|exists:cities,city_id',
             'dis_id' => 'required|exists:districts,dis_id',
-            'no_telp' => 'required|integer|digits_between:10,15',
-            'no_hp' => 'required|integer|digits_between:10,15',
+            'no_telp' => 'required|string|regex:/^[0-9]+$/|digits_between:10,15',
+            'no_hp' => 'required|string|regex:/^[0-9]+$/|digits_between:10,15',
             'email' => 'required|email',
             'kewarganegaraan' => [
                 'required', 'string', Rule::in(['WNI Asli', 'WNI Keturunan','WNA'])

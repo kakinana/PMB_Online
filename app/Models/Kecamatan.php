@@ -10,6 +10,7 @@ class Kecamatan extends Model
     use HasFactory;
 
     protected $table = 'districts';
+    protected $primaryKey = 'dis_id';
 
     public function kabupaten()
     {

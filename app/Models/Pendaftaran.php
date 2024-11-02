@@ -33,16 +33,16 @@ class Pendaftaran extends Model
 
     public function provinsi()
     {
-        return $this->belongsTo(Province::class);
+        return $this->belongsTo(Province::class, 'prov_id');
     }
 
     public function kabupaten()
     {
-        return $this->belongsTo(Kabupaten::class);
+        return $this->belongsTo(Kabupaten::class, 'city_id');
     }
 
     public function kecamatan()
     {
-        return $this->belongsTo(Kecamatan::class);
+        return $this->belongsTo(Kecamatan::class, 'dis_id');
     }
 }

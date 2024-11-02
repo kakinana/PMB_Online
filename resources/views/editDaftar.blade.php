@@ -13,7 +13,6 @@
                     <form method="POST" action="{{ route('update-daftar', ['id' => $daftar->id]) }}">
                     @csrf
                     @method('PUT')
-                    @dd($exProvinces)
                 
                         <!-- Name -->
                         <div>
@@ -40,10 +39,10 @@
                         <div class="mt-4">
                             <x-input-label for="prov_id" :value="__('Provinsi')" />
                             <select id="prov_id" name="prov_id" class="block mt-1 w-full" required>
-                                <option value="">{{ __('Pilih Provinsi') }}</option>
                                 @foreach($exProvinces as $prov)
                                     <option value="{{ $prov->prov_id }}"
-                                        {{ ($daftar->prov_id) == $prov->prov_id ? 'selected' : ''}}>{{ $prov->prov_name }}</option>
+                                        {{ $daftar->prov_id == $prov->prov_id ? 'selected' : '' }}> {{ $prov->prov_name }}
+                                    </option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('prov_id')" class="mt-2" />
@@ -53,11 +52,12 @@
                         <div class="mt-4">
                             <x-input-label for="city_id" :value="__('Kabupaten')" />
                             <select id="city_id" name="city_id" class="block mt-1 w-full" required>
-                                <option value="">{{ __('Pilih Kabupaten') }}</option>
+                                <option value="{{ $daftar->city_id }}" selected>
+                                    {{ optional($cities->firstWhere('city_id', $daftar->city_id))->city_name ?? 'Pilih Kabupaten' }}
+                                </option>
                                 @foreach($cities as $city)
-                                    <option value="{{ $city->id }}"
-                                        {{ $daftar->city_id == $city->id ? 'selected' : '' }}>
-                                        {{ $city->name }}
+                                    <option value="{{ $city->city_id }}" {{ $daftar->city_id == $city->city_id ? 'selected' : '' }}>
+                                        {{ $city->city_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -68,11 +68,12 @@
                         <div class="mt-4">
                             <x-input-label for="dis_id" :value="__('Kecamatan')" />
                             <select id="dis_id" name="dis_id" class="block mt-1 w-full" required>
-                                <option value="">{{ __('Pilih Kecamatan') }}</option>
-                                @foreach($districts as $dis)
-                                    <option value="{{ ids->id }}"
-                                        {{ $daftar->dis_id == $dis->id ? 'selected' : '' }}>
-                                        {{ $dis->name }}
+                                <option value="{{ $daftar->dis_id }}" selected>
+                                    {{ optional($districts->firstWhere('dis_id', $daftar->dis_id))->dis_name ?? 'Pilih Kecamatan' }}
+                                </option>
+                                @foreach($districts as $district)
+                                    <option value="{{ $district->dis_id }}" {{ $daftar->dis_id == $district->dis_id ? 'selected' : '' }}>
+                                        {{ $district->dis_name }}
                                     </option>
                                 @endforeach
                             </select>
@@ -106,7 +107,8 @@
                             <select id="kewarganegaraan" name="kewarganegaraan" class="block mt-1 w-full" required>
                                 <option value="">{{ __('Pilih Kewarganegaraan') }}</option>
                                 @foreach($kewarganegaraan as $option)
-                                    <option value="{{ $option->kewarganegaraan }}">{{ $option->kewarganegaraan }}</option>
+                                    <option value="{{ $option }}"
+                                    {{ $daftar->kewarganegaraan == $option ? 'selected' : ''}}>{{ $option }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('kewarganegaraan')" class="mt-2" />
@@ -139,7 +141,7 @@
                             <select id="jenis_kelamin" name="jenis_kelamin" class="block mt-1 w-full" required>
                                 <option value="">{{ __('Pilih Jenis Kelamin') }}</option>
                                 @foreach($jenisKelamin as $option)
-                                    <option value="{{ $option->jenis_kelamin }}">{{ $option->jenis_kelamin }}</option>
+                                    <option value="{{ $option }}" {{ $daftar->jenis_kelamin == $option ? 'selected' : ''}}>{{ $option}}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
@@ -151,7 +153,7 @@
                             <select id="status_nikah" name="status_nikah" class="block mt-1 w-full" required>
                                 <option value="">{{ __('Pilih Status Nikah') }}</option>
                                 @foreach($statusNikah as $option)
-                                    <option value="{{ $option->status_nikah }}">{{ $option->status_nikah }}</option>
+                                    <option value="{{ $option }}"{{ $daftar->status_nikah == $option ? 'selected' : ''}}>{{ $option }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('status_nikah')" class="mt-2" />
@@ -163,7 +165,7 @@
                             <select id="agama" name="agama" class="block mt-1 w-full" required>
                                 <option value="">{{ __('Pilih Agama') }}</option>
                                 @foreach($agama as $option)
-                                    <option value="{{ $option->agama }}">{{ $option->agama }}</option>
+                                    <option value="{{ $option}}"{{ $daftar->agama == $option ? 'selected' : ''}}>{{ $option }}</option>
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('agama')" class="mt-2" />
@@ -211,10 +213,7 @@
                     kabupatenSelect.appendChild(option);
                 });
 
-                const savedCityId = kabupatenSelect.getAttribute('data-saved-value');
-                if (savedCityId) {
-                    kabupatenSelect.value = savedCityId;
-                }
+                document.getElementById('dis_id').innerHTML = '<option value="">{{ __('Pilih Kecamatan') }}</option>';
             })
             .catch(error => console.error('Error fetching kabupaten:', error));
         });
@@ -235,11 +234,6 @@
                     option.textContent = district.dis_name;
                     kecamatanSelect.appendChild(option);
                 });
-
-                const savedDistrictId = kecamatanSelect.getAttribute('data-saved-value');
-                if (savedDistrictId) {
-                    kecamatanSelect.value = savedDistrictId;
-                }
             })
             .catch(error => console.error('Error fetching kecamatan:', error));
         });

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -70,12 +71,10 @@ Route::delete('hapus-user/{id}', function ($id) {
 Route::get('lihat-daftar', [PendaftaranController::class, 'showAll'])->middleware('auth', 'verified', 'role:admin')->name('lihat-daftar');
 
 # MENGUBAH DATA PENDAFTARAN
-Route::get('edit-daftar/{id}', function ($id) {
-    return view('editDaftar', ['daftar' => Pendaftaran::findOrFail($id)]);
-})->middleware('auth', 'verified', 'role:admin')->name('edit-daftar');
+Route::get('edit-daftar/{id}', [PendaftaranController::class, 'edit'])->middleware('auth', 'verified', 'role:admin')->name('edit-daftar');
 
-Route::get('/get-kabupaten', [PendaftaranController::class, 'getKabupaten'])->name('get.kabupaten');
-Route::get('/get-kecamatan', [PendaftaranController::class, 'getKecamatan'])->name('get.kecamatan');
+Route::get('/get-kabupaten', [PendaftaranController::class, 'newKabupatens'])->name('get.kabupaten');
+Route::get('/get-kecamatan', [PendaftaranController::class, 'newKecamatans'])->name('get.kecamatan');
 
 Route::put('update-daftar/{id}', [PendaftaranController::class, 'update']) 
 ->middleware('auth', 'verified', 'role:admin')->name('update-daftar');
@@ -87,6 +86,8 @@ Route::delete('hapus-daftar/{id}', function($id) {
         return redirect()->back()->with('success', 'Record deleted successfully!');
 })->middleware('auth', 'verified', 'role:admin')->name('hapus-daftar');
 
+# DOWNLOAD PDF
+Route::get('download-daftar/{id}', [PdfController::class, 'generatePdf'])->middleware('auth', 'verified', 'role:admin|maba')->name('download-daftar');
 
 
 # MABA

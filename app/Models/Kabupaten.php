@@ -10,6 +10,7 @@ class Kabupaten extends Model
     use HasFactory;
 
     protected $table = 'cities';
+    protected $primaryKey = 'city_id';
     public function provinsi()
     {
         return $this->belongsTo(Province::class);

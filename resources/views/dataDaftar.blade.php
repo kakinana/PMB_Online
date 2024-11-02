@@ -38,6 +38,7 @@
                                                 @method('DELETE')
                                                 <x-danger-button type="submit" onclick="return confirm('Yakin ingin menghapus pendaftaran ini?')">Hapus</x-danger-button>
                                             </form>
+                                            <x-primary-button onclick="window.location='{{ route('download-daftar', ['id' => $d->id]) }}'"> Download Surat Pendaftaran </x-primary-button>
                                         </td>
                                     </tr>
                                 @empty

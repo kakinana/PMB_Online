@@ -24,9 +24,10 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'lihat-daftar']);
         Permission::create(['name' => 'edit-daftar']);
         Permission::create(['name' => 'hapus-daftar']);
+        Permission::create(['name' => 'download-daftar']);
 
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'maba']);
+        //Role::create(['name' => 'admin']);
+        //Role::create(['name' => 'maba']);
 
         $roleAdmin = Role::findByName('admin');
         $roleAdmin->givePermissionTo([
@@ -37,11 +38,13 @@ class RolePermissionSeeder extends Seeder
             'lihat-daftar',
             'edit-daftar',
             'hapus-daftar',
+            'download-daftar'
         ]);
 
         $roleMaba = Role::findByName('maba');
         $roleMaba->givePermissionTo([
             'pendaftaran',
+            'download-daftar'
         ]);
     }
 }
