@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pendaftaran', function (Blueprint $table) {
+        Schema::create('pendaftarans', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
             $table->string('alamat_ktp');
@@ -19,13 +19,12 @@ return new class extends Migration
 
             $table->unsignedInteger('prov_id'); 
             $table->foreign('prov_id')->references('prov_id')->on('provinces')->onDelete('cascade');
-            //$table->foreignId('provinsi_id')->constrained('provinces');  // Links to Provinsi table
+            
             $table->unsignedInteger('city_id'); 
             $table->foreign('city_id')->references('city_id')->on('cities')->onDelete('cascade');
-            //$table->foreignId('kabupaten_id')->constrained('cities'); 
+            
             $table->unsignedInteger('dis_id'); 
             $table->foreign('dis_id')->references('dis_id')->on('districts')->onDelete('cascade');
-            //$table->foreignId('kecamatan_id')->constrained('districts');
 
             $table->string('no_telp');
             $table->string('no_hp');

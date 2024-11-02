@@ -19,7 +19,7 @@
                         <x-nav-link :href="route('lihat-user')" :active="request()->routeIs('lihat-user')">
                             {{ __('Kelola User') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        <x-nav-link :href="route('lihat-daftar')" :active="request()->routeIs('lihat-daftar')">
                             {{ __('Kelola Pendaftaran') }}
                         </x-nav-link>
                     @elseif (auth()->user()->hasRole('maba'))

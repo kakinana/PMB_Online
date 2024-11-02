@@ -9,13 +9,15 @@ class Pendaftaran extends Model
 {
     use HasFactory;
 
+    protected $table = 'pendaftaran';
+
     protected $fillable = [
         'nama',
         'alamat_ktp',
         'alamat_domisili',
-        'provinsi_id',
-        'kabupaten_id',
-        'kecamatan_id',
+        'prov_id',
+        'city_id',
+        'dis_id',
         'no_telp',
         'no_hp',
         'email',

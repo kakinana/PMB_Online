@@ -3,6 +3,7 @@
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Models\Pendaftaran;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
@@ -51,6 +52,7 @@ Route::post('menambah-user', [UserController::class, 'store'])->middleware('auth
 Route::get('edit-user/{id}', function ($id) {
     return view('editUser', ['user' => User::findOrFail($id)]);
 })->middleware('auth', 'verified', 'role:admin')->name('edit-user');
+
 Route::put('update-user/{id}', [UserController::class, 'update']) 
 ->middleware('auth', 'verified', 'role:admin')->name('update-user');
 
@@ -60,6 +62,31 @@ Route::delete('hapus-user/{id}', function ($id) {
     $user->delete();
     return redirect()->back()->with('success', 'User berhasil dihapus');
 })->middleware('auth', 'verified', 'role:admin')->name('hapus-user');
+
+
+## PENDAFTARAN
+
+# MELIHAT DATA PENDAFTARAN
+Route::get('lihat-daftar', [PendaftaranController::class, 'showAll'])->middleware('auth', 'verified', 'role:admin')->name('lihat-daftar');
+
+# MENGUBAH DATA PENDAFTARAN
+Route::get('edit-daftar/{id}', function ($id) {
+    return view('editDaftar', ['daftar' => Pendaftaran::findOrFail($id)]);
+})->middleware('auth', 'verified', 'role:admin')->name('edit-daftar');
+
+Route::get('/get-kabupaten', [PendaftaranController::class, 'getKabupaten'])->name('get.kabupaten');
+Route::get('/get-kecamatan', [PendaftaranController::class, 'getKecamatan'])->name('get.kecamatan');
+
+Route::put('update-daftar/{id}', [PendaftaranController::class, 'update']) 
+->middleware('auth', 'verified', 'role:admin')->name('update-daftar');
+
+# MENGHAPUS DATA PENDAFTARAN
+Route::delete('hapus-daftar/{id}', function($id) {
+        $record = Pendaftaran::findOrFail($id);
+        $record->delete();
+        return redirect()->back()->with('success', 'Record deleted successfully!');
+})->middleware('auth', 'verified', 'role:admin')->name('hapus-daftar');
+
 
 
 # MABA
