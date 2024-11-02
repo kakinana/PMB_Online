@@ -18,21 +18,21 @@
                             <x-input-label for="nama" :value="__('Nama')" />
                             <x-text-input id="nama" class="block mt-1 w-full" type="text" name="nama" :value="old('nama')" required autofocus autocomplete="nama" />
                             <x-input-error :messages="$errors->get('nama')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Alamat KTP -->
                         <div>
                             <x-input-label for="alamat_ktp" :value="__('Alamat KTP')" />
                             <x-text-input id="alamat_ktp" class="block mt-1 w-full" type="text" name="alamat_ktp" :value="old('alamat_ktp')" required autofocus autocomplete="alamat_ktp" />
                             <x-input-error :messages="$errors->get('alamat_ktp')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Alamat Domisili -->
                         <div>
                             <x-input-label for="alamat_domisili" :value="__('Alamat Domisili')" />
                             <x-text-input id="alamat_domisili" class="block mt-1 w-full" type="text" name="alamat_domisili" :value="old('alamat_domisili')" required autofocus autocomplete="alamat_domisili" />
                             <x-input-error :messages="$errors->get('alamat_domisili')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Provinsi -->
                         <div class="mt-4">
@@ -44,7 +44,7 @@
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('prov_id')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Kabupaten -->
                         <div class="mt-4">
@@ -53,7 +53,7 @@
                                 <option value="">{{ __('Pilih Kabupaten') }}</option>
                             </select>
                             <x-input-error :messages="$errors->get('city_id')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Kecamatan -->
                         <div class="mt-4">
@@ -62,28 +62,28 @@
                                 <option value="">{{ __('Pilih Kecamatan') }}</option>
                             </select>
                             <x-input-error :messages="$errors->get('dis_id')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Nomor Telepon -->
                         <div>
                             <x-input-label for="no_telp" :value="__('No Telp')" />
                             <x-text-input id="no_telp" class="block mt-1 w-full" type="text" name="no_telp" :value="old('no_telp')" required autofocus autocomplete="no_telp" />
                             <x-input-error :messages="$errors->get('no_telp')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Nomor HP -->
                         <div>
                             <x-input-label for="no_hp" :value="__('No HP')" />
                             <x-text-input id="no_hp" class="block mt-1 w-full" type="text" name="no_hp" :value="old('no_hp')" required autofocus autocomplete="no_hp" />
                             <x-input-error :messages="$errors->get('no_hp')" class="mt-2" />
-                        </div>
+                        </div><br>
                 
                         <!-- Email Address -->
                         <div class="mt-4">
                             <x-input-label for="email" :value="__('Email')" />
                             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
                             <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Kewarganegaraan Dropdown -->
                         <div>
@@ -95,28 +95,28 @@
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('kewarganegaraan')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Negara Asal (conditionally shown) -->
                         <div id="negara_asal" style="display: none;">
                             <x-input-label for="negara_asal" :value="__('Negara Asal')" />
                             <x-text-input id="negara_asal" class="block mt-1 w-full" type="text" name="negara_asal" :value="old('negara_asal')" />
                             <x-input-error :messages="$errors->get('negara_asal')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Tanggal Lahir -->
                         <div>
                             <x-input-label for="tanggal_lahir" :value="__('Tanggal Lahir')" />
                             <x-text-input id="tanggal_lahir" class="block mt-1 w-full" type="date" name="tanggal_lahir" :value="old('tanggal_lahir')" required autofocus autocomplete="tanggal_lahir" />
                             <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Tempat Lahir -->
                         <div>
                             <x-input-label for="tempat_lahir" :value="__('Tempat lahir')" />
                             <x-text-input id="tempat_lahir" class="block mt-1 w-full" type="text" name="tempat_lahir" :value="old('tempat_lahir')" required autofocus autocomplete="tempat_lahir" />
                             <x-input-error :messages="$errors->get('tempat_lahir')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Jenis Kelamin Dropdown -->
                         <div>
@@ -128,7 +128,7 @@
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Status Nikah Dropdown -->
                         <div>
@@ -140,7 +140,7 @@
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('status_nikah')" class="mt-2" />
-                        </div>
+                        </div><br>
 
                         <!-- Agama Dropdown -->
                         <div>
@@ -152,7 +152,7 @@
                                 @endforeach
                             </select>
                             <x-input-error :messages="$errors->get('agama')" class="mt-2" />
-                        </div>
+                        </div><br>
                 
                         <div class="flex items-center justify-end mt-4">
                             <x-primary-button class="ms-4">
